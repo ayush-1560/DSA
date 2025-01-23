@@ -1,20 +1,28 @@
 class MyCalendar {
 public:
-    set<pair<int,int>>st;
+    map<int,int>mp;
     MyCalendar() {
         
     }
     
-    bool book(int startTime, int endTime) {
-        auto it =st.lower_bound({startTime,endTime});
-        //next comparision
-        if(it!=st.end() && it->first < endTime) return false;
-        //prev comparison
-        if(it!=st.begin()){
-            auto prevIT=prev(it);
-            if(prevIT->second > startTime) return false;
+    bool book(int start, int end) {
+        mp[start]++;
+        mp[end]--;
+        int sum=0;
+        for(auto it : mp){
+            sum+=it.second;
+            if(sum>1){
+                mp[start]--;
+                mp[end]++;
+                return false;
+            }
         }
-        st.insert({startTime,endTime});
         return true;
     }
 };
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(startTime,endTime);
+ */
