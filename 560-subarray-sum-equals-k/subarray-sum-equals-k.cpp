@@ -11,7 +11,6 @@ public:
             if(mp.find(cummSum-k)!=mp.end()) ans+=mp[cummSum-k];
             mp[cummSum]++;
         }
-        for(auto it : mp) cout<<it.first<<" "<<it.second<<endl;
         return ans;
     }
 };
