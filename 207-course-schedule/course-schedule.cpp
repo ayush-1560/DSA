@@ -1,33 +1,33 @@
 class Solution {
 public:
-    bool hasCycle(unordered_map<int,vector<int>>&adj,int n){
-        vector<int>indegree(n,0);
-        for(int u=0;u<n;u++){
-            for(int&v : adj[u]){
-                indegree[v]++;
+    bool dfs(unordered_map<int,vector<int>> &adj, int u, vector<bool>& vis, vector<bool>& inRec) {
+        vis[u] = true;
+        inRec[u] = true;
+        for (int &v : adj[u]) {
+            if (!vis[v]) {
+                if (!dfs(adj, v, vis, inRec)) return false;  // FIX: Correct logic
             }
+            else if (inRec[v]) return false;
         }
-        int count=0;
-        queue<int>q;
-        for(int i=0;i<n;i++){
-            if(indegree[i]==0) q.push(i);
-        }
-        while(!q.empty()){
-            int u = q.front();
-            q.pop();
-            count++;
-            for(int&v : adj[u]){
-                indegree[v]--;
-                if(indegree[v]==0) q.push(v);
-            }
-        }
-        return (count!=n);
+        inRec[u] = false;
+        return true;
     }
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        unordered_map<int,vector<int>>adj;
-        for(auto course : prerequisites){
+        unordered_map<int,vector<int>> adj;
+        for (auto &course : prerequisites) {
             adj[course[1]].push_back(course[0]);
         }
-        return !hasCycle(adj,numCourses);
+        
+        vector<bool> vis(numCourses, false);
+        vector<bool> inRec(numCourses, false);
+        
+        for (int i = 0; i < numCourses; i++) {
+            if (!vis[i]) {
+                if (!dfs(adj, i, vis, inRec)) return false;
+            }
+        }
+        
+        return true;
     }
 };
