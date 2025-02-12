@@ -9,18 +9,15 @@ public:
         return sum;
     }
     int maximumSum(vector<int>& nums) {
-        unordered_map<int,vector<int>>mp;
-        for(auto& ele : nums){
-            int sum=sumD(ele);
-            mp[sum].push_back(ele);
-        }
-        for(auto& it : mp) sort(it.second.rbegin(),it.second.rend());
-        int maxSum=INT_MIN;
-        for(auto& it : mp){
-            if(it.second.size()>=2){
-                maxSum=max(maxSum,(it.second[0]+it.second[1]));
+        int mp[82]={0};
+        int ans=-1;
+        for(int i=0;i<nums.size();i++){
+            int digitSum=sumD(nums[i]);
+            if(mp[digitSum]>0){
+               ans=max(ans,nums[i]+ mp[digitSum]); 
             }
+            mp[digitSum] = max(mp[digitSum],nums[i]);
         }
-        return maxSum==INT_MIN ? -1 : maxSum;
+        return ans;
     }
 };
