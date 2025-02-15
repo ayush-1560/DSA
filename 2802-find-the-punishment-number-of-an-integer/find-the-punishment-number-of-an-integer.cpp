@@ -1,23 +1,17 @@
 class Solution {
 public:
-    bool check(int i , int currSum, string s, int num){
-        if(i==s.length()) return currSum==num;
-        if(currSum>num) return false;
-        bool possible = false;
-        for(int j=i;j<s.length();j++){
-            string sub = s.substr(i,j-i+1);
-            int val = stoi(sub);
-            possible=possible || check(j+1,currSum+val,s,num);
-            if(possible) return true;
-        }
-        return possible;
+    bool check(int sq,int currSum, int num){
+        if(sq==0) return currSum==num;
+        return check(sq/10,currSum+sq%10,num)
+        || check(sq/100,currSum+sq%100,num)
+        || check(sq/1000,currSum+sq%1000,num)
+        || check(sq/10000,currSum+sq%10000,num);
     }
     int punishmentNumber(int n) {
         int ans =0;
         for(int i=1;i<=n;i++){
             int sq=i*i;
-            string s=to_string(sq);
-            if(check(0,0,s,i)) ans+=sq;
+            if(check(sq,0,i)) ans+=sq;
         }
         return ans;
     }
