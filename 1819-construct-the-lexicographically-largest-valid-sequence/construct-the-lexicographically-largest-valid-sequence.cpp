@@ -29,7 +29,7 @@ public:
 }
     vector<int> constructDistancedSequence(int n) {
         vector<int>ans(2*n-1,-1);
-        vector<bool>used(n+1,false);
+        vector<bool>used(n,false);
         solve(0,n,ans,used);
         return ans;
     }
