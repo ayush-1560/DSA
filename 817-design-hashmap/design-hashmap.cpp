@@ -1,20 +1,49 @@
 class MyHashMap {
 public:
-    vector<int>nums;
+    vector<list<pair<int, int>>> buckets;
+    int M;
+
+    int getIdx(int key) {
+        return key % M;
+    }
+
     MyHashMap() {
-        nums.resize(10000001,-1);
+        M = 15000;
+        buckets.resize(M);
     }
-    
+
     void put(int key, int value) {
-        nums[key]=value;
+        int idx = getIdx(key);
+        auto& location = buckets[idx];
+        for (auto& it : location) {
+            if (it.first == key) {
+                it.second = value;
+                return;
+            }
+        }
+        location.emplace_back(key, value);
     }
-    
+
     int get(int key) {
-         if(nums[key]==-1) return -1;
-         return nums[key];
+        int idx = getIdx(key);
+        auto& location = buckets[idx];
+        for (auto& it : location) {
+            if (it.first == key) {
+                return it.second;
+            }
+        }
+        return -1;
     }
-    
+
     void remove(int key) {
-        nums[key]=-1;
+        int idx = getIdx(key);
+        auto& location = buckets[idx];
+        for (auto it = location.begin(); it != location.end();) {
+            if (it->first == key) {
+                it = location.erase(it);
+            } else {
+                it++; 
+            }
+        }
     }
 };
