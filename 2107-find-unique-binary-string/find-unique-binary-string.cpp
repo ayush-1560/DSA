@@ -6,7 +6,9 @@ public:
             return;
         }
         for(char ch='0';ch<='1';ch++){
-            solve(i+1,n,temp+ch,ans);
+            temp.push_back(ch);
+            solve(i+1,n,temp,ans);
+            temp.pop_back();
         }
     }
     string findDifferentBinaryString(vector<string>& nums) {
