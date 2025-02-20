@@ -1,24 +1,11 @@
 class Solution {
 public:
-    void solve(int i,int n,string temp,vector<string>&ans){
-        if(i==n){
-            ans.push_back(temp);
-            return;
-        }
-        for(char ch='0';ch<='1';ch++){
-            temp.push_back(ch);
-            solve(i+1,n,temp,ans);
-            temp.pop_back();
-        }
-    }
     string findDifferentBinaryString(vector<string>& nums) {
-        string temp="";
-        vector<string>ans;
-        solve(0,nums.size(),temp,ans);
-        unordered_set<string>st(nums.begin(),nums.end());
-        for(auto ele : ans) {
-            if(!st.count(ele)) return ele;
+        int n = nums.size();
+        string ans(n,' ');
+        for(int i=0;i<n;i++){
+            ans[i]=nums[i][i]=='1' ? '0' : '1';
         }
-        return "";
+        return ans;
     }
 };
