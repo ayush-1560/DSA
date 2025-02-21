@@ -1,23 +1,24 @@
 class FindElements {
 public:
-    TreeNode * newRoot;
-    TreeNode* recover(TreeNode* root,int val){
-        if(!root) return NULL;
-        TreeNode* newNode = new TreeNode(val);
-        newNode->left = recover(root->left,2*val+1);
-        newNode->right= recover(root->right,2*val+2);
-        return newNode;
-    }
-    bool findValue(TreeNode* root,int target){
-        if(!root) return false;
-        if(root->val==target) return true;
-        return findValue(root->left,target) || findValue(root->right,target);
+    unordered_set<int>st;
+    void DFS(TreeNode* root, int x){
+        if(!root) return;
+        root->val =x;
+        st.insert(x);
+        DFS(root->left,2*x+1);
+        DFS(root->right,2*x+2);
     }
     FindElements(TreeNode* root) {
-        newRoot  = recover(root,0);
+        DFS(root,0);
     }
     
     bool find(int target) {
-        return findValue(newRoot,target);
+        return (st.count(target));
     }
 };
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * FindElements* obj = new FindElements(root);
+ * bool param_1 = obj->find(target);
+ */
