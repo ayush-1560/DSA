@@ -2,20 +2,32 @@ class Solution {
 public:
     vector<vector<int>> mergeArrays(vector<vector<int>>& nums1, vector<vector<int>>& nums2) {
         vector<vector<int>>ans;
-        unordered_map<int,int>mp;
-        for(auto ele : nums1){
-            mp.insert({ele[0],ele[1]});
-        }
-        for(auto ele : nums2){
-            if(mp.count(ele[0])){
-                mp[ele[0]]+=ele[1];
+        int m = nums1.size();
+        int n = nums2.size();
+        int i=0,j=0;
+        while(i<m && j<n){
+            if(nums1[i][0]<nums2[j][0]){
+                ans.push_back({nums1[i][0],nums1[i][1]});
+                i++;
             }
-            else ans.push_back({ele[0],ele[1]});
+            else if(nums1[i][0]>nums2[j][0]){
+                ans.push_back({nums2[j][0],nums2[j][1]});
+                j++;
+            }
+            else{
+                ans.push_back({nums1[i][0],nums1[i][1]+nums2[j][1]});
+                i++;
+                j++;
+            }
         }
-        for(auto it : mp){
-            ans.push_back({it.first,it.second});
+        while(i<m){
+            ans.push_back({nums1[i][0],nums1[i][1]});
+            i++;
         }
-        sort(ans.begin(),ans.end());
+        while(j<n){
+            ans.push_back({nums2[j][0],nums2[j][1]});
+            j++;
+        }
         return ans;
     }
 };
