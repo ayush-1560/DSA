@@ -2,30 +2,24 @@ class Solution {
 public:
     int numberOfAlternatingGroups(vector<int>& colors, int k) {
         int n = colors.size();
-
-        int N = n + (k-1);
-        for(int i = 0; i < k-1; i++) {
-            colors.push_back(colors[i]); //to handle wrap around (circular array)
+        int l=0,r=1;
+        int temp=0;
+        int ans=0;
+        while(temp!=k-1){
+            colors.push_back(colors[temp]);
+            temp++;
         }
-
-        int result = 0;
-        int i = 0;
-        int j = 1; //because we have to check index j-1 for checking alterate
-        while(j < N) {
-            if(colors[j] == colors[j-1]) {
-                i = j;
-                j++;
-                continue;
+        int N= n+k-1;
+        while(r<N){
+            if(colors[r]==colors[r-1]){
+                l=r;
             }
-
-            if(j - i + 1 == k) {
-                result++;
-                i++;
+            if((r-l+1)==k){
+                ans++;
+                l++;
             }
-
-            j++;
+            r++;
         }
-
-        return result;
+        return ans;
     }
 };
