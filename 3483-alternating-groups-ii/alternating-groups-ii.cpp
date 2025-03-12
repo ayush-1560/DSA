@@ -10,15 +10,13 @@ public:
             temp++;
         }
         int N= n+k-1;
-        while(r<N){
-            if(colors[r]==colors[r-1]){
-                l=r;
-            }
-            if((r-l+1)==k){
+        int length =1;
+        for(int i=1;i<N;i++){
+            if(colors[i]==colors[i-1]) length=1;
+            else length++;
+            if(length>=k) {
                 ans++;
-                l++;
             }
-            r++;
         }
         return ans;
     }
