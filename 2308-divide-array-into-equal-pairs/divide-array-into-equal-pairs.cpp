@@ -1,11 +1,19 @@
 class Solution {
 public:
     bool divideArray(vector<int>& nums) {
-        unordered_map<int,int>mp;
-        for(auto ele : nums) mp[ele]++;
-        for(auto it : mp){
-            if(it.second&2!=0) return false;
+        sort(nums.begin(), nums.end());
+        int curr = 1, cnt = 0;
+        
+        for(int i = 1; i < nums.size(); i++) {
+            if(nums[i] != nums[i - 1]) {
+                cnt += curr / 2;
+                curr = 1;
+            } else {
+                curr++;
+            }
         }
-        return true;
+        cnt += curr / 2;
+        
+        return cnt == nums.size() / 2;
     }
 };
