@@ -1,28 +1,31 @@
 class Solution {
 public:
     vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
-        unordered_set<string> supplySet(supplies.begin(), supplies.end());
-        vector<string> ans;
         int n = recipes.size();
-        vector<bool>isCooked(n,false);
-        int count = n;
-        while(count--){
-             for(int i = 0; i < n; i++){
-                if(isCooked[i]) continue;
-                string recipe = recipes[i];
-                int sz = ingredients[i].size();
-            
-                for (string& item : ingredients[i]) {
-                if (supplySet.find(item) != supplySet.end()) {
-                    sz--;
+        vector<string>ans;
+        unordered_set<string>st(supplies.begin(),supplies.end());
+        unordered_map<string,vector<int>>adj;
+        vector<int>indegree(n,0);
+        for(int i=0;i<n;i++){
+            for(string& indg : ingredients[i]){
+                if(!st.count(indg)){
+                    adj[indg].push_back(i);
+                    indegree[i]++;
                 }
             }
-            
-            if (sz == 0) {
-                supplySet.insert(recipe);
-                ans.push_back(recipe);
-                isCooked[i]=true;
-            }
+        }
+        queue<int>q;
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0) q.push(i);
+        }
+        while(!q.empty()){
+            int i = q.front();
+            q.pop();
+            string recipe = recipes[i];
+            ans.push_back(recipe);
+            for(int& x : adj[recipe]){
+                indegree[x]--;
+                if(indegree[x]==0) q.push(x);
             }
         }
         return ans;
