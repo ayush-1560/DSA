@@ -1,11 +1,12 @@
 class Solution {
 public:
-    void dfs(unordered_map<int,vector<int>>&adj,int node,vector<bool>&vis,unordered_set<int>&components){
+    void dfs(unordered_map<int,vector<int>>&adj,int node,vector<bool>&vis,int& v , int& e){
         vis[node]=true;
-        components.insert(node);
+        v++;
+        e+=adj[node].size();
         for(auto ngbr : adj[node]){
             if(!vis[ngbr]){
-                dfs(adj,ngbr,vis,components);
+                dfs(adj,ngbr,vis,v,e);
             }
         }
     }
@@ -19,14 +20,9 @@ public:
         int ans=0;
         for(int i=0;i<n;i++){
             if(!vis[i]){
-                unordered_set<int>components;
-                dfs(adj,i,vis,components);
-                int k = components.size();
-                int reqEdges = (k*(k-1))/2;
-                int actualEdges = 0;
-                for(int node : components) actualEdges+=adj[node].size();
-                actualEdges/=2;
-                if(actualEdges==reqEdges) ans++;
+                int v=0,e=0;
+                dfs(adj,i,vis,v,e);
+                if((v*(v-1))==e) ans++;
             }
         }
         return ans;
