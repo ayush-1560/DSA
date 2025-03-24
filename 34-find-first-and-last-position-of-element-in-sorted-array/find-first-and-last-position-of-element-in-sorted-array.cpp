@@ -1,27 +1,9 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        int n = nums.size();
-        int low =0 , high = n-1,secondIdx=-1,firstIdx=-1;
-        while(low<=high){
-            int mid = low + (high-low)/2;
-            if(nums[mid]==target){
-                firstIdx=mid;
-                high = mid-1;
-            }
-            else if(nums[mid]>target) high=mid-1;
-            else low = mid+1;
-        }
-        low=0,high=n-1;
-        while(low<=high){
-            int mid = low + (high-low)/2;
-            if(nums[mid]==target){
-                secondIdx=mid;
-                low = mid+1;
-            }
-            else if(nums[mid]>target) high=mid-1;
-            else low = mid+1;
-        }
-        return {firstIdx,secondIdx};
+        int lb = lower_bound(nums.begin(),nums.end(),target) - nums.begin();
+        if(lb==nums.size() || nums[lb]!=target) return {-1,-1};
+        int ub = upper_bound(nums.begin(),nums.end(),target) - nums.begin();
+        return {lb,ub-1}; 
     }
 };
