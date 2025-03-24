@@ -1,27 +1,20 @@
 class Solution {
 public:
-    void merge(vector<vector<int>>& intervals,vector<vector<int>>&ans) {
-        int n=intervals.size();
-        sort(intervals.begin(),intervals.end());
-        ans.push_back({intervals[0][0],intervals[0][1]});
-        for(int i=1;i<n;i++){
-            int start=intervals[i][0];
-            int end=intervals[i][1];
-            if(start<=ans.back()[1]){
-                ans.back()[1]=max(ans.back()[1],end);
-            }
-            else{
-                ans.push_back({start,end});
-            }
-        }
-    }
     int countDays(int days, vector<vector<int>>& meetings) {
-        vector<vector<int>>ans;
-        merge(meetings,ans);
-        for(auto ele : ans){
-            int diff = ele[1]-ele[0]+1;
-            days-=diff;
+        int n = meetings.size();
+        sort(meetings.begin(),meetings.end());
+        int startTime = 0;
+        int endTime = 0;
+        int ans=0;
+        for(auto meeting : meetings){
+            if(meeting[0] > endTime){
+                ans+=meeting[0]-endTime-1;
+            }
+            endTime = max(endTime,meeting[1]);
         }
-        return days;
+        if(days>endTime){
+            ans+=days-endTime;
+        }
+        return ans;
     }
 };
