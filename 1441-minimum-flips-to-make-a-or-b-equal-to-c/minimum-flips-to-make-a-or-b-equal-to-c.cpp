@@ -1,18 +1,10 @@
 class Solution {
 public:
     int minFlips(int a, int b, int c) {
-        int count = 0;
-        while(a || b || c){
-            if(c&1){
-                if((a&1)==0 && (b&1)==0) count++;
-            }
-            else{
-                count+=(a&1) + (b&1);
-            }
-            a>>=1;
-            b>>=1;
-            c>>=1;
-        }
-        return count;
+        int temp = (a|b)^c;
+        int ans = __builtin_popcount(temp);
+        temp&=(a&b);
+        ans+=__builtin_popcount(temp);
+        return ans;
     }
 };
