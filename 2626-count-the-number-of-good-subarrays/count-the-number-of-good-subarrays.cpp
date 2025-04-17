@@ -2,19 +2,20 @@ class Solution {
 public:
     long long countGood(vector<int>& nums, int k) {
         int n = nums.size();
-        int l=0,r=0; long long cnt=0,ans=0;
         unordered_map<int,int>mp;
-        while(r<n){
-            cnt+=mp[nums[r]];
-            mp[nums[r]]++;
-            while(l<r && cnt>=k){
-                ans+=n-r;
-                mp[nums[l]]--;
-                cnt-=mp[nums[l]];
-                l++;
+        long long count = 0;
+        int i=0,j=0,pairs=0;
+        while(j<n){
+            pairs+=mp[nums[j]];
+            mp[nums[j]]++;
+            while(pairs>=k){
+                count+=(n-j);
+                mp[nums[i]]--;
+                pairs-=mp[nums[i]];
+                i++;
             }
-            r++;
+            j++;
         }
-        return ans;
+        return count;
     }
 };
