@@ -1,21 +1,21 @@
 class Solution {
 public:
-    void solve(int n,string temp,vector<string>&ans){
+    vector<string>ans;
+    void solve(int n,string temp){
         if(temp.size()==n){
             ans.push_back(temp);
-            return ;
+            return;
         }
+        unordered_set<char>st;
         for(char ch='a';ch<='c';ch++){
-            if( !temp.empty() && temp.back()==ch) continue;
-            temp.push_back(ch);
-            solve(n,temp,ans);
-            temp.pop_back();
+            if(temp.empty() || temp.back()!=ch){
+                solve(n,temp+ch);
+            }
         }
     }
     string getHappyString(int n, int k) {
-        vector<string>ans;
-        solve(n,"",ans);
-        if(ans.size()<k) return "";
+        solve(n,"");
+        if(k>ans.size()) return "";
         return ans[k-1];
     }
 };
