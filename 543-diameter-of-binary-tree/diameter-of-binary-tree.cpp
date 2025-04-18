@@ -1,14 +1,19 @@
 class Solution {
 public:
-    int height(TreeNode* root){
-        if(!root) return 0;
-        return 1 + max(height(root->left),height(root->right));
+    int ans = 0;
+
+    int height(TreeNode* root) {
+        if (!root) return 0;
+
+        int leftHt = height(root->left);
+        int rightHt = height(root->right);
+
+        ans = max(ans, leftHt + rightHt);
+        return 1 + max(leftHt, rightHt);
     }
+
     int diameterOfBinaryTree(TreeNode* root) {
-        if(!root) return 0;
-        int diaLeft = diameterOfBinaryTree(root->left);
-        int diaRight= diameterOfBinaryTree(root->right);
-        int currHeight = height(root->left) + height(root->right);
-        return max({diaLeft,diaRight,currHeight});
+        height(root);
+        return ans;
     }
 };
