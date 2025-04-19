@@ -1,24 +1,18 @@
 class Solution {
 public:
+    int totalNodes(TreeNode* root){
+        if(!root) return 0;
+        return 1 + totalNodes(root->left) + totalNodes(root->right); 
+    }
+    bool dfs(TreeNode* root, int idx,int nodes){
+        if(!root) return true;
+        if(idx > nodes) return false;
+        return dfs(root->left,2*idx,nodes) && dfs(root->right,2*idx+1,nodes);
+    }
     bool isCompleteTree(TreeNode* root) {
         if(!root) return true;
-        queue<TreeNode*>q;
-        q.push(root);
-        bool past = false;
-        while(!q.empty()){
-            auto node = q.front();
-            q.pop();
-            if(node==NULL){
-                past = true;
-            }
-            else {
-                if(past) return false;
-                else{
-                    q.push(node->left);
-                    q.push(node->right);
-                }
-            }
-        }
-        return true;
+        int idx = 1;
+        int nodes = totalNodes(root);
+        return dfs(root,idx,nodes);
     }
 };
