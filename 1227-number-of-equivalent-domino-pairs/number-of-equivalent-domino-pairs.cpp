@@ -1,21 +1,16 @@
 class Solution {
 public:
-    
-    int calc(int n){
-        return n*(n-1)/2;
-    }
     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
         for (auto& domino : dominoes){
             if(domino[0]>domino[1]) swap(domino[0],domino[1]);
         }
-        unordered_map<string,int>mp;
-        for(auto domino : dominoes) {
-            string temp = to_string(domino[0]) + "_" + to_string(domino[1]);
-            mp[temp]++;
+        vector<int>mp(100,0);
+        for(auto domino : dominoes){
+            mp[domino[0]*10+domino[1]]++;
         }
         int ans =0;
-        for(auto it : mp){
-            if(it.second>1) ans+=calc(it.second);
+        for(int i=0;i<100;i++){
+            ans+=mp[i]*(mp[i]-1)/2;
         }
         return ans;
     }
