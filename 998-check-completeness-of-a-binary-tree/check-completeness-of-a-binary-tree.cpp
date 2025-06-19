@@ -1,18 +1,18 @@
 class Solution {
 public:
-    int totalNodes(TreeNode* root){
+    int count(TreeNode* root){
         if(!root) return 0;
-        return 1 + totalNodes(root->left) + totalNodes(root->right); 
+        return 1 + count(root->left) + count(root->right);
     }
-    bool dfs(TreeNode* root, int idx,int nodes){
+    bool dfs(TreeNode* root,int i,int totalNodes){
         if(!root) return true;
-        if(idx > nodes) return false;
-        return dfs(root->left,2*idx,nodes) && dfs(root->right,2*idx+1,nodes);
+        if(i>totalNodes) return false;
+        return dfs(root->left,2*i,totalNodes) &&
+        dfs(root->right,2*i+1,totalNodes);
     }
     bool isCompleteTree(TreeNode* root) {
-        if(!root) return true;
-        int idx = 1;
-        int nodes = totalNodes(root);
-        return dfs(root,idx,nodes);
+       int totalNodes=count(root);
+       int i=1;
+       return dfs(root,i,totalNodes); 
     }
 };
