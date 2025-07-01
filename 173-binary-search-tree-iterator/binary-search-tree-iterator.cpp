@@ -1,28 +1,25 @@
 class BSTIterator {
 public:
-    vector<int>ino;
-    TreeNode* treeRoot;
-    int idx=0;
-    int curr;
-    void fill(TreeNode* treeRoot){
-        if(!treeRoot) return;
-        fill(treeRoot->left);
-        ino.push_back(treeRoot->val);
-        fill(treeRoot->right);
+    stack<TreeNode*>st;
+    void pushAll(TreeNode* root){
+        while(root){
+            st.push(root);
+            root=root->left;
+        }
     }
     BSTIterator(TreeNode* root) {
-        treeRoot=root;
-        fill(treeRoot);
+        pushAll(root);
     }
     
     int next() {
-        curr=ino[idx];
-        if(idx<ino.size()) idx++;
-        return curr;
+        TreeNode* curr = st.top();
+        st.pop();
+        pushAll(curr->right);
+        return curr->val;
     }
     
     bool hasNext() {
-        return idx<ino.size();
+        return !st.empty();
     }
 };
 
