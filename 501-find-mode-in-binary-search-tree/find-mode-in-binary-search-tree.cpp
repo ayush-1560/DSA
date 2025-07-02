@@ -1,20 +1,29 @@
 class Solution {
 public:
-    unordered_map<int,int>mp;
-    int maxFreq=INT_MIN;
+    vector<int>ans;
+    int currNum=0, currFreq=0;
+    int maxFreq=0;
     void inorder(TreeNode* root){
         if(!root) return;
         inorder(root->left);
-        mp[root->val]++;
-        maxFreq=max(maxFreq,mp[root->val]);
+        if(currNum==root->val){
+            currFreq++;
+        }
+        else{
+            currFreq=1;
+            currNum=root->val;
+        }
+        if(currFreq>maxFreq){
+            maxFreq=currFreq;
+            ans={};
+        }
+        if(currFreq==maxFreq){
+            ans.push_back(root->val);
+        }
         inorder(root->right);
     }
     vector<int> findMode(TreeNode* root) {
         inorder(root);
-        vector<int>ans;
-        for(auto it : mp){
-            if(it.second==maxFreq) ans.push_back(it.first);
-        }
         return ans;
     }
 };
