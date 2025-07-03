@@ -1,8 +1,5 @@
 class Solution {
 public:
-    char getNext(char ch) {
-    return (ch == 'z') ? 'a' : ch + 1;
-    }
     char kthCharacter(int k) {
         string str = "a";
         string gen = "b";
@@ -10,7 +7,7 @@ public:
             str+=gen;
             string temp="";
             for(char ch : gen){
-                temp+=getNext(ch);
+                temp+=(ch == 'z') ? 'a' : ch + 1;
             }
             gen+=temp;
         }
