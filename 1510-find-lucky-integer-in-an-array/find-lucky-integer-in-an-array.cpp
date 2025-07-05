@@ -1,11 +1,11 @@
 class Solution {
 public:
     int findLucky(vector<int>& arr) {
-        unordered_map<int,int>mp;
-        for(auto ele : arr) mp[ele]++;
+        vector<int>nums(501,0);
+        for(int ele : arr) nums[ele]++;
         int maxEle=-1;
-        for(auto it : mp){
-            if(it.second==it.first) maxEle = max(maxEle,it.first);
+        for(int i=1;i<=500;i++) {
+            if(nums[i]==i) maxEle=max(maxEle,i);
         }
         return maxEle;
     }
