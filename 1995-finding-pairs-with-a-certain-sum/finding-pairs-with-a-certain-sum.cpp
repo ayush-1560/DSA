@@ -17,7 +17,7 @@ public:
     int count(int tot) {
         int cnt=0;
         for(int i=0;i<v1.size();i++){
-            if(mp.count(tot-v1[i])) cnt+=mp[tot-v1[i]];
+            cnt+=mp[tot-v1[i]];
         }
         return cnt;
     }
