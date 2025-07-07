@@ -1,18 +1,25 @@
 class Solution {
 public:
     int maxEvents(vector<vector<int>>& events) {
-        sort(events.begin(),events.end(),[](vector<int>&a,vector<int>&b){
-            return a[1] < b[1];
-        });
-        set<int>days;
-        for(int i=1;i<=1e5;i++) days.insert(i);
-        int cnt =0;
-        for(auto event : events){
-            auto it = days.lower_bound(event[0]);
-            if(it==days.end() || *it > event[1]) continue;
-            else {
+        int n = events.size();
+        sort(events.begin(),events.end());
+        priority_queue<int,vector<int>,greater<int>>pq;
+        int i =0;
+        int day = events[0][0];
+        int cnt=0;
+        while(!pq.empty() || i<n){
+            if(pq.empty()) day = events[i][0];
+            while(i<n && events[i][0]==day){
+                pq.push(events[i][1]);
+                i++;
+            }
+            if(!pq.empty()){
+                pq.pop();
                 cnt++;
-                days.erase(it);
+            }
+            day++;
+            while(!pq.empty() && pq.top()<day){
+                pq.pop();
             }
         }
         return cnt;
