@@ -2,7 +2,7 @@ class Solution {
 public:
     int n;
     int bs(vector<vector<int>>& events,int idx){
-        int i=idx;
+        int i=idx+1;
         int j=n-1;
         while(i<=j){
             int mid = i+ (j-i)/2;
