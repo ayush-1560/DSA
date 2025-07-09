@@ -2,28 +2,15 @@ class Solution {
 public:
     int candy(vector<int>& ratings) {
         int n = ratings.size();
-        int ans = n;
-        int i =1;
-        while(i<n){
-            if(ratings[i]==ratings[i-1]){
-                i++;
-                continue;
-            }
-            int peak =0;
-            while(i<n && ratings[i]>ratings[i-1]){
-                peak++;
-                ans+=peak;
-                i++;
-                if(i==n) return ans;
-            }
-            int dip=0;
-            while(i<n && ratings[i-1]>ratings[i]){
-                dip++;
-                ans+=dip;
-                i++;
-            }
-            ans-=min(dip,peak);
+        vector<int>L2R(n,1),R2L(n,1);
+        for(int i=1;i<n;i++) {
+            if(ratings[i]>ratings[i-1]) L2R[i]=L2R[i-1]+1;
         }
-        return ans;
+        for(int i=n-2;i>=0;i--){
+            if(ratings[i]>ratings[i+1]) R2L[i] = R2L[i+1] + 1;
+        }
+        int candies=0;
+        for(int i=0;i<n;i++) candies += max(L2R[i],R2L[i]);
+        return candies;
     }
 };
