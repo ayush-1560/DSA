@@ -1,23 +1,22 @@
 class Solution {
 public:
-    bool isValid(vector<int> nums,long long expected_max){
-        vector<long long>arr(begin(nums),end(nums));
-        for(int i=0;i<arr.size()-1;i++){
-            if(arr[i]>expected_max) return false;
-            long long buffer = expected_max -arr[i];
-            arr[i+1]-= buffer; 
-        }
-        return (arr[arr.size()-1]<=expected_max);
+    bool check(vector<int> nums, long long  mid) {
+    int n = nums.size();
+    vector<long long>arr(begin(nums),end(nums));
+    for (int i = 0; i <= n - 2; i++) {
+        if(arr[i] > mid) return false;
+        arr[i + 1] -= mid-arr[i];
     }
+    return arr[n - 1] <= mid;
+}
     int minimizeArrayValue(vector<int>& nums) {
-        long long low = 0, high = *max_element(nums.begin(),nums.end());
-        while(low<=high){
-            long long mid = low + (high-low)/2;
-            if(isValid(nums,mid)){
-                high = mid-1;
-            }
-            else low = mid+1;
+        int l = 0;
+        int r = *max_element(nums.begin(),nums.end());
+        while(l<=r){
+            long long mid = l+(r-l)/2;
+            if(check(nums,mid)) r=mid-1;
+            else l=mid+1;
         }
-        return low;
+        return l;
     }
 };
