@@ -1,11 +1,19 @@
 class Solution {
 public:
-    bool dfs(vector<vector<int>>& graph,int u ,vector<int>&color,int col){
-        color[u]=col;
-        for(int v : graph[u]){
-            if(color[v]==col) return false;
-            else if(color[v]==-1){
-                if(!dfs(graph,v,color,!col)) return false; 
+    bool bfs(vector<vector<int>>& adj,int u ,vector<int>&colors,int col){
+        queue<pair<int,int>>q;
+        q.push({u,col});
+        colors[u]=col;
+        while(!q.empty()){
+            int node = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            for(int v : adj[node]){
+                if(colors[v]==col) return false;
+                else if(colors[v]==-1){
+                    colors[v]=!col;
+                    q.push({v,!col});
+                }
             }
         }
         return true;
@@ -15,7 +23,7 @@ public:
         vector<int>color(n,-1);
         for(int i=0;i<n;i++){
             if(color[i]==-1){
-                if(!dfs(graph,i,color,0)) return false;
+                if(!bfs(graph,i,color,0)) return false;
             }
         }
         return true;
