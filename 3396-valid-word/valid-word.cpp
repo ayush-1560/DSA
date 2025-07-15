@@ -6,12 +6,12 @@ public:
     }
     bool isValid(string word) {
         if(word.length()<3) return false;
-        int cntVowel=0,cntConst=0;
+        bool hasVowel =false,hasConst =false;
         for(char ch : word){
             if(!isalnum(ch)) return false;
-            if(isVowel(ch)) cntVowel++;
-            else if( isalpha(ch) &&  !isVowel(ch)) cntConst++;
+            if(isVowel(ch)) hasVowel=true;
+            else if( isalpha(ch) &&  !isVowel(ch)) hasConst=true;
         }
-        return (cntVowel>0 && cntConst>0);
+        return (hasVowel && hasConst);
     }
 };
