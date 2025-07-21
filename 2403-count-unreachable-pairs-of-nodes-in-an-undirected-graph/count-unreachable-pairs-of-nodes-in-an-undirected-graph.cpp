@@ -1,29 +1,49 @@
 class Solution {
 public:
-    void dfs(int u,unordered_map<int,vector<int>>&adj,vector<bool>&vis,long long& cmpSize){
-        vis[u]=true;
-        cmpSize++;
-        for(int& v : adj[u]){
-            if(!vis[v]){
-                dfs(v,adj,vis,cmpSize);
+    unordered_map<int,int>cmpSize;
+    int find(int i,vector<int>&parent){
+        if(i==parent[i]) return i;
+        else return parent[i]=find(parent[i],parent);
+    }
+    void Union(int x, int y,vector<int>&parent,vector<int>&rank){
+        int px = find(x,parent);
+        int py = find(y,parent);
+        if(px==py) return;
+        else{
+            if(rank[px]>rank[py]){
+                parent[py]=px;
+                cmpSize[px]+=cmpSize[py];
+            }
+            else if(rank[py]>rank[px]){
+                parent[px]=py;
+                cmpSize[py]+=cmpSize[px];
+            }
+            else{
+                parent[py]=px;
+                cmpSize[px]+=cmpSize[py];
+                rank[px]++;
             }
         }
     }
     long long countPairs(int n, vector<vector<int>>& edges) {
-        unordered_map<int,vector<int>>adj;
-        for(auto edge : edges){
-            adj[edge[0]].push_back(edge[1]);
-            adj[edge[1]].push_back(edge[0]);
-        }
+        vector<int>parent(n);
+        vector<int>rank(n,0);
         long long ans=0;
-        vector<bool>vis(n,false);
-        int remNodes=n;
+        int remSize=n;
+        for(int i=0;i<n;i++) {
+            cmpSize[i]=1;
+            parent[i]=i;
+        }
+        for(auto edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            Union(u,v,parent,rank);
+        }
         for(int i=0;i<n;i++){
-            if(!vis[i]){
-                long long cmpSize=0;
-                dfs(i,adj,vis,cmpSize);
-                ans+=cmpSize*(remNodes-cmpSize);
-                remNodes-=cmpSize;
+            if(parent[i]==i){
+                long long sz=cmpSize[i];
+                ans+=sz*(remSize-sz);
+                remSize-=sz;
             }
         }
         return ans;
