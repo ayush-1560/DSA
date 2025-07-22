@@ -16,6 +16,7 @@ public:
             int diff = pq.top().first;
             int x = pq.top().second.first;
             int y = pq.top().second.second;
+            if(x==m-1 && y==n-1) return diff;
             pq.pop();
             for(auto dir : directions){
                 int x_ = x + dir[0];
