@@ -16,7 +16,8 @@ public:
         }
     }
     Node* cloneGraph(Node* node) {
-        if (!node) return nullptr; 
+        if (!node) return nullptr;
+        mp.clear();
         Node* rootNode = new Node(node->val);
         mp[node]=rootNode;
         dfs(node,rootNode);
