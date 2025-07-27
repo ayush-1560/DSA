@@ -1,21 +1,16 @@
 class Solution {
 public:
-    bool isPeakOrValley(int a, int b, int c){
-        return (b > a && b > c) || (b < a && b < c);
-    }
-
     int countHillValley(vector<int>& nums) {
-        vector<int> arr;
-        arr.push_back(nums[0]);
-        for(int i = 1; i < nums.size(); i++){
-            if(nums[i] != nums[i-1])
-                arr.push_back(nums[i]);
-        }
-
-        int cnt = 0;
-        for(int i = 1; i < arr.size() - 1; i++){
-            if(isPeakOrValley(arr[i-1], arr[i], arr[i+1]))
+        int n = nums.size();
+        int i=0,j=1;
+        int cnt=0;
+        while(j+1<n){
+            if((nums[j]>nums[i] && nums[j]>nums[j+1])
+            || (nums[j]<nums[i] && nums[j]<nums[j+1])){
                 cnt++;
+                i=j;
+            }
+            j++;
         }
         return cnt;
     }
