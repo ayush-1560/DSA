@@ -1,32 +1,17 @@
 class Solution {
 public:
-    vector<vector<int>>subs;
-    void fill(int idx,vector<int>& nums,vector<int>&temp){
-        if(idx==nums.size()) {
-            subs.push_back(temp);
-            return;
-        }
-        temp.push_back(nums[idx]);
-        fill(idx+1,nums,temp);
-        temp.pop_back();
-        fill(idx+1,nums,temp);
+    int solve(int idx,vector<int>& nums,int currOr,int maxOr,vector<vector<int>>&dp){
+        if(idx==nums.size()) return currOr==maxOr;
+        if(dp[idx][currOr]!=-1) return dp[idx][currOr];
+        int take = solve(idx+1,nums,currOr|nums[idx],maxOr,dp);
+        int skip = solve(idx+1,nums,currOr,maxOr,dp);
+        return dp[idx][currOr] = take + skip;
     }
     int countMaxOrSubsets(vector<int>& nums) {
         int n = nums.size();
-        vector<int>temp;
-        fill(0,nums,temp);
-        int cnt=0;
-        int maxOr=0;
-        for(auto v : subs){
-            int curror=0;
-            for(auto ele : v) curror|=ele;
-            maxOr=max(maxOr,curror);
-        }
-        for(auto v : subs){
-            int curror=0;
-            for(auto ele : v) curror|=ele;
-            if(curror==maxOr) cnt++;
-        }
-        return cnt;
+        int maxOr = 0;
+        for(int num : nums) maxOr|=num;
+        vector<vector<int>>dp(n,vector<int>(maxOr+1,-1));
+        return solve(0,nums,0,maxOr,dp);
     }
 };
