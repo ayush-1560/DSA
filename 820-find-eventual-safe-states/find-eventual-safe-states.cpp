@@ -1,25 +1,32 @@
 class Solution {
 public:
-    bool dfs(int u,vector<vector<int>>& graph,vector<bool>&vis,vector<bool>&inRecursion){
-        vis[u]=true;
-        inRecursion[u]=true;
-        for(int v : graph[u]){
-            if(!vis[v] && dfs(v,graph,vis,inRecursion)) return true;
-            if(inRecursion[v]) return true;
-        }
-        inRecursion[u]=false;
-        return false;
-    }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
-        vector<int>ans;
-        vector<bool>vis(n,false);
-        vector<bool>inRecursion(n,false);
-        for(int i=0;i<n;i++){
-            if(!vis[i]) dfs(i,graph,vis,inRecursion);
+        vector<bool>safenodes(n,false);
+        vector<int>indegree(n);
+        unordered_map<int,vector<int>>adj;
+        for(int i=0 ;i<n;i++){
+            for(int v : graph[i]){
+                adj[v].push_back(i);
+                indegree[i]++;
+            }
         }
-        for(int i=0;i<n;i++) {
-            if(!inRecursion[i]) ans.push_back(i);
+        queue<int>q;
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0) q.push(i);
+        }
+        vector<int>ans;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            safenodes[node]=true;
+            for(int v : adj[node]){
+                indegree[v]--;
+                if(indegree[v]==0) q.push(v);
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(safenodes[i]) ans.push_back(i);
         }
         return ans;
     }
