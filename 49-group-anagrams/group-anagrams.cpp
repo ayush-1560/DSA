@@ -3,15 +3,19 @@ public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>>ans;
         unordered_map<string,vector<string>>mp;
-        for(auto str : strs){
-            string lexo = str;
-            sort(lexo.begin(),lexo.end());
-            if(mp.find(lexo)==mp.end()){
-                mp[lexo] = {str};
+        for(string str : strs){
+            string temp = str;
+            sort(temp.begin(),temp.end());
+            if(mp.count(temp)){
+                mp[temp].push_back(str);
             }
-            else mp[lexo].push_back(str);
+            else mp.insert({temp,{str}});
         }
-        for(auto it : mp) ans.push_back(it.second);
+        for(auto it : mp){
+            vector<string>v;
+            for(string str : it.second) v.push_back(str);
+            ans.push_back(v);
+        }
         return ans;
     }
 };
