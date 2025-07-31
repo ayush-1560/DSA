@@ -6,15 +6,10 @@ public:
         for(string str : strs){
             string temp = str;
             sort(temp.begin(),temp.end());
-            if(mp.count(temp)){
-                mp[temp].push_back(str);
-            }
-            else mp.insert({temp,{str}});
+            mp[temp].push_back(str);
         }
         for(auto it : mp){
-            vector<string>v;
-            for(string str : it.second) v.push_back(str);
-            ans.push_back(v);
+            ans.push_back(it.second);
         }
         return ans;
     }
