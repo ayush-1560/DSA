@@ -15,9 +15,7 @@ public:
             }
         }
         while(!q.empty()){
-            int sz = q.size();
-            while(sz--){
-                int i = q.front().first;
+          int i = q.front().first;
                 int j = q.front().second;
                 q.pop();
                 for(auto dir : directions){
@@ -28,7 +26,6 @@ public:
                         q.push({ni,nj});
                     }
                 }
-            }
         }
         return ans; 
     }
