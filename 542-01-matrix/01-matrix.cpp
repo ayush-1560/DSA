@@ -15,17 +15,17 @@ public:
             }
         }
         while(!q.empty()){
-            int sz=q.size();
+            int sz = q.size();
             while(sz--){
                 int i = q.front().first;
                 int j = q.front().second;
                 q.pop();
                 for(auto dir : directions){
-                    int i_= i + dir[0];
-                    int j_ = j + dir[1];
-                    if(i_>=0 && i_<m && j_>=0 && j_<n && ans[i_][j_]==-1){
-                        ans[i_][j_] = ans[i][j]+1;
-                        q.push({i_,j_});
+                    int ni = i + dir[0];
+                    int nj = j + dir[1];
+                    if(ni>=0 && ni<m &&nj>=0 && nj<n && ans[ni][nj]==-1){
+                        ans[ni][nj] = ans[i][j] + 1;
+                        q.push({ni,nj});
                     }
                 }
             }
