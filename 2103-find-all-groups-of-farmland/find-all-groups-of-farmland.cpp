@@ -2,15 +2,22 @@ class Solution {
 public:
     int m,n;
     vector<vector<int>>directions = {{0,-1,},{0,1},{1,0},{-1,0}};
-    void dfs(int i ,int j,vector<vector<int>>& land,int& ex, int &ey){
-        land[i][j]=0;
-        ex= max(ex,i);
-        ey= max(ey,j);
-        for(auto dir : directions){
-            int ni = i + dir[0];
-            int nj= j + dir[1];
-            if(ni>=0 && ni<m && nj>=0 && nj<n && land[ni][nj]==1){
-                dfs(ni,nj,land,ex,ey);
+    void bfs(int i ,int j,vector<vector<int>>& land,int& ex, int &ey){
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        while(!q.empty()){
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            ex= max(ex,x);
+            ey= max(ey,y);
+            for(auto dir : directions){
+                int ni = x + dir[0];
+                int nj= y + dir[1];
+                if(ni>=0 && ni<m && nj>=0 && nj<n && land[ni][nj]==1){
+                    land[ni][nj]=0;
+                    q.push({ni,nj});
+                }
             }
         }
     }
@@ -23,7 +30,7 @@ public:
                 if(land[i][j]==1){
                     int ex=i;
                     int ey=j;
-                    dfs(i,j,land,ex,ey);
+                    bfs(i,j,land,ex,ey);
                     ans.push_back({i,j,ex,ey});
                 }
             }
