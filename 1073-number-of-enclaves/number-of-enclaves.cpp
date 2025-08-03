@@ -15,10 +15,11 @@ public:
          n = grid[0].size();
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(grid[0][j]==1) dfs(0,j,grid);
-                if(grid[i][0]==1) dfs(i,0,grid);
-                if(grid[i][n-1]==1) dfs(i,n-1,grid);
-                if(grid[m-1][j]==1) dfs(m-1,j,grid);
+                if(i==0 || i==m-1 || j==0 || j==n-1){
+                    if(grid[i][j]==1){
+                        dfs(i,j,grid);
+                    }
+                } 
             }
         }
         int enclaves = 0;
