@@ -3,12 +3,11 @@ public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = fruits.size();
         int cnt=0;
-        unordered_set<int>st;
         for(int i=0;i<n;i++){
             bool isAssigned = false;
             for(int j=0;j<n;j++){
-                if(!st.count(j) && baskets[j]>=fruits[i]){
-                    st.insert(j);
+                if(baskets[j]>=fruits[i]){
+                    baskets[j]=0;
                     isAssigned = true;
                     break;
                 }
