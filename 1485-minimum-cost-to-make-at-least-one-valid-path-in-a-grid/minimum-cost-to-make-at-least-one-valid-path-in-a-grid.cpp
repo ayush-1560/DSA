@@ -1,30 +1,31 @@
 class Solution {
 public:
-    vector<vector<int>>dir={{0,1},{0,-1},{1,0},{-1,0}};
+    int m,n;
+    typedef pair<int,pair<int,int>> P;
+    vector<vector<int>>directions = {{0,1},{0,-1},{1,0},{-1,0}};
     int minCost(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        priority_queue<vector<int>,vector<vector<int>>,greater<>>pq;
+        m = grid.size();
+        n = grid[0].size();
         vector<vector<int>>ans(m,vector<int>(n,INT_MAX));
+        priority_queue<P,vector<P>,greater<P>>pq;
+        pq.push({0,{0,0}});
         ans[0][0]=0;
-        pq.push({0,0,0});
         while(!pq.empty()){
-            auto node = pq.top();
+            int cost = pq.top().first;
+            int i = pq.top().second.first;
+            int j = pq.top().second.second;
             pq.pop();
-            int currCost = node[0];
-            int i= node[1];
-            int j= node[2];
-            if(ans[i][j] < currCost) continue;
-            for(int dir_i=0;dir_i<=3;dir_i++){
-                int i_ = i + dir[dir_i][0];
-                int j_ = j + dir[dir_i][1];
-                if( i_>=0 && j_>=0 && i_<m && j_<n){
-                    int gridDir = grid[i][j];
-                    int newCost = currCost + (gridDir-1!=dir_i ? 1: 0);
-                    if(newCost < ans[i_][j_]){
-                        ans[i_][j_] = newCost;
-                        pq.push({newCost,i_,j_});
-                    }
+            for(int d=0;d<4;d++){
+                int ni = i + directions[d][0];
+                int nj = j + directions[d][1];
+                if(ni>=0 && ni<m && nj>=0 && nj<n){
+                    int gridDir = grid[i][j]-1;
+                    int currCost =0;
+                    currCost = cost + ((d!=gridDir)? 1 : 0);
+                    if(currCost < ans[ni][nj]){
+                        ans[ni][nj] = currCost;
+                        pq.push({currCost,{ni,nj}});
+                    } 
                 }
             }
         }
