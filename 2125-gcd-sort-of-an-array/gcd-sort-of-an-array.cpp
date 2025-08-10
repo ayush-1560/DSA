@@ -20,13 +20,14 @@ public:
             rank[par_x]++;
         }
     }
-    vector<int>getFactors(int x){
-        vector<int>factors;
+    unordered_set<int>getFactors(int x){
+        unordered_set<int>factors;
         for(int i=2;i*i<=x;i++){
-            if(x%i==0) factors.push_back(i);
-            while(x%i==0) x/=i;
+            if(x%i==0){
+                factors.insert(i);
+                factors.insert(x/i);
+            }
         }
-        if(x>1) factors.push_back(x);
         return factors;
     }
     bool gcdSort(vector<int>& nums) {
@@ -36,7 +37,7 @@ public:
         rank.resize(mx+1,1);
         for(int i=0; i <= mx; i++) parent[i] = i;
         for(int num : nums){
-            vector<int>factors = getFactors(num);
+            unordered_set<int>factors = getFactors(num);
             for(int f : factors) Union(num,f);
         }
         vector<int>sortedNums=nums;
