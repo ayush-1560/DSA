@@ -1,15 +1,13 @@
 class Solution {
 public:
-    int solve(int idx,vector<int>& nums,int sum,vector<int>&dp){
-        if(idx>=nums.size()) return 0;
-        if(dp[idx]!=-1) return dp[idx];
-        int take = nums[idx] + solve(idx+2,nums,sum,dp);
-        int skip = solve(idx+1,nums,sum,dp);
-        return dp[idx] = max(take,skip);
-    }
     int rob(vector<int>& nums) {
-        int sum=0;
-        vector<int>dp(nums.size(),-1);
-        return solve(0,nums,sum,dp);
+        int n = nums.size();
+        vector<int>dp(n+1,0);
+        dp[0]=0;
+        dp[1]=nums[0];
+        for(int i=2;i<=n;i++){
+            dp[i] = max(nums[i-1]+dp[i-2],dp[i-1]);
+        }
+        return dp[n];
     }
 };
