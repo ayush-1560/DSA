@@ -1,15 +1,13 @@
 class Solution {
 public:
     string largestGoodInteger(string num) {
-        int n = num.length();
-        int maxNum=INT_MIN;
         string ans="";
-        for(int i=1;i<n-1;i++){
-            if(num[i]==num[i-1] && num[i]==num[i+1]){
-                if(stoi(num.substr(i-1,3))>maxNum){
-                    maxNum=stoi(num.substr(i-1,3));
-                    ans=num.substr(i-1,3);
-                }
+        vector<string>nums ={"000","111","222","333","444","555",
+        "666","777","888","999"};
+        for(int i=9;i>=0;i--){
+            if(num.find(nums[i])!=string::npos) {
+                ans=nums[i];
+                break;
             }
         }
         return ans;
