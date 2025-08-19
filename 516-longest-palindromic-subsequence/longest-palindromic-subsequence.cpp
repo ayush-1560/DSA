@@ -1,22 +1,17 @@
 class Solution {
 public:
-    int LCS(string& s1, string& s2){
-        int n = s1.length();
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
-        for(int i=0;i<=n;i++){
-            for(int j=0;j<=n;j++){
-                if(i==0 || j==0) dp[i][j]=0;
-                else if(s1[i-1]==s2[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
-                else {
-                    dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
-                }
-            }
-        }
-        return dp[n][n];
+    int dp[1001][1001];
+    int solve(string& s, int i, int j){
+        if(i > j) return 0;
+        if(i == j) return 1;  
+        if(dp[i][j]!=-1) return dp[i][j];          
+        if(s[i] == s[j]) 
+            return  dp[i][j] = 2 + solve(s, i+1, j-1);
+        else return dp[i][j] = max(solve(s, i+1, j), solve(s, i, j-1));
     }
+
     int longestPalindromeSubseq(string s) {
-        string s2 = s;
-        reverse(s2.begin(),s2.end());
-        return LCS(s,s2);
+        memset(dp,-1,sizeof(dp));
+        return solve(s, 0, s.length()-1);
     }
 };
