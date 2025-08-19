@@ -1,16 +1,20 @@
 class Solution {
 public:
     long long zeroFilledSubarray(vector<int>& nums) {
-        long long count =0;
         int n = nums.size();
-        int i=0,j=0;
-        while(j<n){
-            while(j<n && nums[j]!=0) j++;
-            i=j;
-            while(j<n && nums[j]==0){
-                count+=j-i+1;
-                j++;
+        long long count = 0;
+        int i = 0;
+        while (i < n) {
+            int l = 0;
+            if (nums[i] == 0) {
+                while (i < n && nums[i] == 0) {
+                    i++;
+                    l++;
+                }
+            } else {
+                i++;
             }
+            count += (1LL * l * (l + 1)) / 2; 
         }
         return count;
     }
