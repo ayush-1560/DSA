@@ -12,6 +12,7 @@ public:
         for(auto str : v){
             ans = ans + str + " ";
         }
-        return ans.substr(0,ans.length()-1);
+        ans.pop_back();
+        return ans;
     }
 };
