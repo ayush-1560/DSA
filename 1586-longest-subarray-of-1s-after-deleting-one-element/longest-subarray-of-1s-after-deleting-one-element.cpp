@@ -11,9 +11,9 @@ public:
                 if(nums[i]==0) zc--;
                 i++;
             }
-            maxLen = max(maxLen,j-i+1);
+            maxLen = max(maxLen,j-i);
             j++;
         }
-        return maxLen-1;
+        return maxLen;
     }
 };
