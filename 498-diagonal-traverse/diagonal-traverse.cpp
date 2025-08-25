@@ -9,13 +9,11 @@ public:
                 mp[i+j].push_back(mat[i][j]);
             }
         }
-        vector<int>ans;
         bool flip = true;
-        for(auto& it : mp){
-            if(flip) {
-                reverse(it.second.begin(),it.second.end());
-            }
-            for(auto& ele : it.second) ans.push_back(ele);
+        vector<int>ans;
+        for(auto it : mp){
+            if(flip) reverse(it.second.begin(),it.second.end());
+            for(auto ele : it.second) ans.push_back(ele);
             flip = !flip;
         }
         return ans;
