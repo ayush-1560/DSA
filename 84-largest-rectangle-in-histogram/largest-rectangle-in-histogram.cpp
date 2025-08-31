@@ -26,14 +26,12 @@ public:
     }
     int largestRectangleArea(vector<int>& heights) {
         int n = heights.size();
-        vector<int>nse(n,n);
-        vector<int>pse(n,-1);
+        int maxArea=0;
+        vector<int>nse(n,n),pse(n,-1);
         fillNse(heights,nse);
         fillPse(heights,pse);
-        int maxArea=0;
         for(int i=0;i<n;i++){
-            int area = heights[i]*(nse[i]-pse[i]-1);
-            maxArea = max(maxArea,area);
+            maxArea = max(maxArea,heights[i]*(nse[i]-pse[i]-1));
         }
         return maxArea;
     }
