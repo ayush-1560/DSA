@@ -1,20 +1,22 @@
 class Solution {
 public:
     typedef long long ll;
+    ll dp[100000+1];
+    unordered_map<ll,ll>mp;
+    long long solve(vector<ll>&nums,int idx){
+        if(idx>=nums.size()) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        ll skip = solve(nums,idx+1);
+        int j = lower_bound(nums.begin()+idx+1,nums.end(),nums[idx]+3) - nums.begin();
+        ll take = mp[nums[idx]]*nums[idx] + solve(nums,j);
+        return dp[idx] =  max(take,skip);
+    }
     long long maximumTotalDamage(vector<int>& power) {
-        map<ll,ll>freq;
-        for(auto ele : power) freq[ele]++;
-        ll n = power.size(), ans=0,prevEl,backEl=0;
-        unordered_map<int,ll>dp;
-        for(auto f : freq){
-            auto el = f.first;
-            auto fr = f.second;
-            auto backIt = freq.lower_bound(el-2);
-            if(backIt != freq.begin()) backEl =(*(--backIt)).first;
-            dp[el] = max(dp[prevEl],el*fr + dp[backEl]);
-            ans = max(ans,dp[el]);
-            prevEl = el;
-        }
-        return ans;
+        memset(dp,-1,sizeof(dp));
+        for(int ele : power) mp[ele]++;
+        vector<ll>nums;
+        for(auto it : mp) nums.push_back(it.first);
+        sort(nums.begin(),nums.end());
+        return solve(nums,0);
     }
 };
