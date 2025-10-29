@@ -1,12 +1,10 @@
 class Solution {
 public:
-    bool isValid(int n){
-        return (n & (n + 1)) == 0;
-    }
     int smallestNumber(int n) {
-      for(int i=n;i<=pow(2,1000);i++){
-        if(isValid(i)) return i;
+      int x = 1;
+      while(x<n){
+        x=x*2+1;
       }
-      return n+1;
+      return x;
     }
 };
