@@ -2,17 +2,14 @@ class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
         unordered_set<int>st(nums.begin(),nums.end());
-        ListNode* temp = head;
-        ListNode* dummy = new ListNode (-100);
-        ListNode* tempD = dummy;
-        while(temp){
-            if(!st.count(temp->val)) {
-                ListNode * newNode = new ListNode(temp->val);
-                tempD->next = newNode;
-                tempD = tempD->next;
+        while(head && st.count(head->val)) head=head->next;
+        ListNode* curr = head;
+        while(curr && curr->next){
+            if(st.count(curr->next->val)){
+                curr->next = curr->next->next;
             }
-            temp = temp->next;
+            else curr = curr->next;
         }
-        return dummy->next;
+        return head;
     }
 };
