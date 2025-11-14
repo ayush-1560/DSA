@@ -8,10 +8,14 @@ public:
            int x2 = query[2];
            int y2 = query[3];
            for(int i=x1;i<=x2;i++){
-            for(int j=y1;j<=y2;j++){
-                mat[i][j]++;
-            }
+                mat[i][y1]+=1;
+                if(y2+1<n) mat[i][y2+1]-=1;
            }
+       }
+       for(int i=0;i<n;i++){
+        for(int j=1;j<n;j++){
+            mat[i][j]+=mat[i][j-1];
+        }
        }
        return mat; 
     }
