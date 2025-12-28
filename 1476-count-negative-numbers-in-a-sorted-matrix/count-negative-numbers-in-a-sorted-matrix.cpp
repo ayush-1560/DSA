@@ -5,21 +5,14 @@ public:
         int n = grid[0].size();
         int cnt = 0;
 
-        for (auto &v : grid) {
-            int low = 0, high = n - 1;
-            int firstNeg = n;
-
-            while (low <= high) {
-                int mid = low + (high - low) / 2;
-                if (v[mid] < 0) {
-                    firstNeg = mid;
-                    high = mid - 1;
-                } else {
-                    low = mid + 1;
-                }
+        int row = m-1;
+        int col = 0;
+        while(row>=0 && col<n){
+            if(grid[row][col] < 0) {
+                cnt+=(n-col);
+                row--;
             }
-
-            cnt += (n - firstNeg);
+            else col++;
         }
         return cnt;
     }
