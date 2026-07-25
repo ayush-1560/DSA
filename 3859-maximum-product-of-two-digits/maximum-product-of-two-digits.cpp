@@ -1,10 +1,20 @@
 class Solution {
+vector<int>findValues(int n){
+    int max = -1, smax = -1;
+    while(n>0){
+        int d = n%10;
+        if(d>max){
+            smax = max;
+            max = d;
+        }
+        else if(d>smax) smax = d;
+        n/=10;
+    }
+    return {max,smax};
+}
 public:
     int maxProduct(int n) {
-        string str = to_string(n);
-        sort(str.begin(),str.end());
-        int x = str[str.size()-1]-'0';
-        int y = str[str.size()-2]-'0';
-        return x*y;
+        vector<int>values = findValues(n);
+        return values[0]*values[1];
     }
 };
